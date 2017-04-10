@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    tools:context="com.vicki.mes.todo.ui.ToDOActivity">
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/todo_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/iv_empty_icon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/todo_icon" />
+
+            <TextView
+                android:id="@+id/tv_empty_main_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_horizontal"
+                android:text="No activities yet. "
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_empty_secondary_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-regular"
+                android:gravity="center_horizontal"
+                android:text="Add new now!..."
+                android:textColor="@color/colorAccent"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+    <ListView
+        android:id="@+id/lv_to_do"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="3dp"
+        tools:layout_editor_absoluteY="-4dp" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_add"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/ic_add_24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+
+        app:backgroundTint="@color/colorPrimary"
+        app:borderWidth="0dp"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        />
+
+</android.widget.RelativeLayout>
