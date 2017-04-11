@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-import com.vicki.mes.todo.Models.ToDo;
+import com.vicki.mes.todo.Models.BucketList;
 import com.vicki.mes.todo.R;
 
 import java.util.List;
@@ -16,16 +16,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by kamadi on 4/2/17.
+ * Created by kemboi on 4/2/17.
  */
 
-public class todoListAdapter extends BaseListAdapter<ToDo>  {
+public class todoListAdapter extends BaseListAdapter<BucketList> {
 
 
-
-    public todoListAdapter(Context context, List<ToDo> agentAccounts) {
+    public todoListAdapter(Context context, List<BucketList> BucketList) {
         super(context);
-        setItems(agentAccounts);
+        setItems(BucketList);
 
     }
 
@@ -34,7 +33,7 @@ public class todoListAdapter extends BaseListAdapter<ToDo>  {
     public View getView(int position, View convertView, ViewGroup parent) {
         todoListAdapter.ViewHolder viewHolder;
 
-        if(convertView==null){
+        if (convertView == null) {
 
             // inflate the layout
             LayoutInflater inflate = (LayoutInflater) this.context
@@ -45,21 +44,22 @@ public class todoListAdapter extends BaseListAdapter<ToDo>  {
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
 
-        }else{
+        } else {
             viewHolder = (todoListAdapter.ViewHolder) convertView.getTag();
 
         }
         //Update ViewHolder with data.
-        ToDo a = getItem(position);
+        BucketList a = getItem(position);
         viewHolder.itemTitle.setText(a.getTitle());
         viewHolder.itemDescription.setText(a.getDescription());
         viewHolder.itemDate.setText(a.getDate());
         viewHolder.itemTime.setText(a.getTime());
+        viewHolder.itemCategory.setText(a.getCategory());
 
         return convertView;
     }
 
-    static class ViewHolder{
+    static class ViewHolder {
         @BindView(R.id.tv_item_title)
         TextView itemTitle;
 
@@ -70,9 +70,11 @@ public class todoListAdapter extends BaseListAdapter<ToDo>  {
         TextView itemDate;
         @BindView(R.id.tv_item_time)
         TextView itemTime;
+        @BindView(R.id.tv_item_category)
+        TextView itemCategory;
 
-        public ViewHolder(View view){
-            ButterKnife.bind(this,view);
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
         }
 
 

@@ -10,8 +10,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.vicki.mes.todo.Adapters.ToDoAdapter;
-import com.vicki.mes.todo.Models.ToDo;
+import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.vicki.mes.todo.Models.BucketList;
 import com.vicki.mes.todo.R;
 
 import butterknife.BindView;
@@ -23,6 +23,7 @@ import butterknife.OnClick;
  */
 
 public class AddToDoActivity extends AppCompatActivity {
+
     @BindView(R.id.ed_title)
     EditText edTitle;
 
@@ -46,9 +47,17 @@ public class AddToDoActivity extends AppCompatActivity {
 
     @BindView(R.id.time_layout)
     TextInputLayout timeLayout;
+    @BindView(R.id.category_layout)
+    TextInputLayout categoryLayout;
 
     @BindView(R.id.btn_todo_save)
     Button btnSave;
+    @BindView(R.id.sp_category)
+    MaterialSpinner spCategory;
+
+
+
+    private static final String[] Categories = {"Select Category","Bucket List", "Todo", "Meeting","Alarm", "Other"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +65,8 @@ public class AddToDoActivity extends AppCompatActivity {
         setContentView(R.layout.add_todo_activity);
         ButterKnife.bind(this);
         hideKeyboard();
+        spCategory.setItems(Categories);
+
 
      }
 
@@ -68,16 +79,30 @@ public class AddToDoActivity extends AppCompatActivity {
              String description = edDescription.getText().toString().trim();
              String date = edDate.getText().toString().trim();
              String time = edTime.getText().toString().trim();
+             final String[] selectedcategory = new String[1];
+             spCategory.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+                 @Override
+                 public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                     if (position > 0) {
+                         selectedcategory[0] = item.toString();
 
-             ToDoAdapter todoadapter = new ToDoAdapter(this);
-             todoadapter.open();
-             ToDo success = todoadapter.createToDo(title,description,date,time);
+                     }
 
-             if (!success.equals(null))
+                 }
+             });
+
+
+              final BucketList itemBucket = new BucketList(title,description,date,time,selectedcategory[0]);
+
+
+
+             if (!itemBucket.equals(null))
+             itemBucket.save();
              {
                  Snackbar.make(btnSave,"Save Successfull.",Snackbar.LENGTH_LONG).show();
+                 finish();
              }
-             todoadapter.close();
+
          }
      }
 
@@ -85,9 +110,12 @@ public class AddToDoActivity extends AppCompatActivity {
 
 
 
+
+
+
     private boolean is_valid()
     {
-        if(validateDate() & validateDescription() & validateTime() & validateTitle())
+        if(validateDate() & validateDescription() & validateTime() & validateTitle()& validateCategory())
         {
             return true;
         }
@@ -145,6 +173,18 @@ public class AddToDoActivity extends AppCompatActivity {
         }
         return  true;
     }
+    private boolean validateCategory()
+    {
+        int selectedcategory = spCategory.getSelectedIndex();
+
+        if (selectedcategory<0){
+            categoryLayout.setError("Pick Category.");
+
+    }else{
+            categoryLayout.setErrorEnabled(false);
+        }
+        return  true;
+    }
     void hideKeyboard(){
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -152,6 +192,7 @@ public class AddToDoActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
 
 
 }

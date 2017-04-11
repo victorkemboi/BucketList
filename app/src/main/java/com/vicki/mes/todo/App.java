@@ -10,6 +10,7 @@ public class App extends SugarApp {
 
 
 
+
     public static App getInstance() {
         return sInstance;
     }

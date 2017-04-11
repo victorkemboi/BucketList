@@ -9,20 +9,27 @@ import java.util.List;
  * Created by kembo on 4/3/2017.
  */
 
-public class ToDo extends SugarRecord{
+public class BucketList extends SugarRecord{
     private  long id;
     private  String title;
     private  String description;
     private  String date;
     private  String time;
+    private    String category;
 
-   /** public  ToDo(String title, String description,String date,String time){
+    public BucketList() {
+    }
+
+
+    public BucketList(String title, String description, String date, String time, String category){
         this.title = title;
         this.description = description;
         this.date = date;
         this.time = time;
+        this.category = category;
 
-    } */
+
+    }
 
 
     public long gettodoId() {
@@ -57,10 +64,17 @@ public class ToDo extends SugarRecord{
     public String getTime() {
         return time;
     }
+    public String getCategory() {
+        return category;
+    }
 
     public void setTime(String time) {
         this.time = time;
     }
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
 
     // Will be used by the ArrayAdapter in the ListView
     @Override
@@ -68,8 +82,8 @@ public class ToDo extends SugarRecord{
         return title;
     }
 
-    public static List<ToDo> gettodos(){
-        return Select.from(ToDo.class).list();
+    public static List<BucketList> gettodos(){
+        return Select.from(BucketList.class).list();
 
     }
 

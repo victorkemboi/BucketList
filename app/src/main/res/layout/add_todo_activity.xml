@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dp"
-        android:layout_marginTop="10dp"
+
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/white"
             android:text="Title"
-            android:textColor="@color/white"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
 
 
@@ -43,20 +48,50 @@
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/category_layout">
+
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/sp_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:hint="Select Category"
+                android:textSize="18dp"
+
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/linearLayout2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="10dp"
+
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/tv_description"
-            android:layout_width="200dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/white"
             android:text="Description"
-            android:textColor="@color/white"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp" />
 
 
@@ -66,7 +101,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="146dp"
+
         android:orientation="horizontal">
 
         <android.support.design.widget.TextInputLayout
@@ -78,7 +113,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
-            android:layout_marginTop="6dp"
+
             android:layout_weight="1"
             android:hint="Describe Activity."
 
@@ -88,8 +123,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="218dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="wrap_content"
@@ -129,7 +164,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="400dp">
+        >
 
         <Button
             android:id="@+id/btn_todo_save"
@@ -144,4 +179,4 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
