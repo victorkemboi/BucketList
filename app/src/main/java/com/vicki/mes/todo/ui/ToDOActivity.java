@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -46,6 +48,12 @@ public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do);
         ButterKnife.bind(this);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setIcon(R.drawable.todo_icon);
+            actionBar.setTitle("Upcomin Tasks");
+
+        }
         loadlist();
         setUpListViewListener();
         setupOnItemselected();
@@ -58,6 +66,39 @@ public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.
         getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.nav_active:
+
+                loadlist();
+                setUpListViewListener();
+                setupOnItemselected();
+                ActionBar actionBar = getSupportActionBar();
+                if(actionBar!=null){
+                    actionBar.setIcon(R.drawable.todo_icon);
+                    actionBar.setTitle("Upcomin Tasks");
+
+                }
+
+                return true;
+            case R.id.nav_completed:
+                ActionBar actionBar1 = getSupportActionBar();
+                if(actionBar1!=null){
+                    actionBar1.setIcon(R.drawable.completed);
+                    actionBar1.setTitle("Completed Tasks");
+
+                }
+                loadcompleted();
+                setUpListViewListener();
+                setupOnItemselected();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private  void setupOnItemselected(){
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -108,7 +149,15 @@ public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.
     }
 
     void loadlist() {
-        List<BucketList> allbucketlists = BucketList.gettodos();
+        List<BucketList> allbucketlists = BucketList.getactive();
+        listItem = new todoListAdapter(this, allbucketlists);
+        lvItems.setEmptyView(emptyView);
+        lvItems.setAdapter(listItem);
+
+    }
+
+    void loadcompleted() {
+        List<BucketList> allbucketlists = BucketList.getcompleted();
         listItem = new todoListAdapter(this, allbucketlists);
         lvItems.setEmptyView(emptyView);
         lvItems.setAdapter(listItem);
@@ -130,10 +179,18 @@ public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.
 
     @Override
     public void onComplete(int option) {
-        if(option==1){
-            App app = App.getInstance();
-            app.selectedBucketList.delete();
-            loadlist();
-         }
+        switch (option) {
+            case 1:
+                App app = App.getInstance();
+                app.selectedBucketList.delete();
+                loadlist();
+            case 2:
+                App app2 = App.getInstance();
+                app2.selectedBucketList.status = "Completed";
+                app2.selectedBucketList.save();
+                loadlist();
+
+
+        }
     }
 }

@@ -28,7 +28,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Done"
+        android:text="Completed Activity"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        />
+    <Button
+        android:id="@+id/btn_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Close"
         android:background="@color/colorPrimary"
         android:textColor="@color/white"
         android:textSize="15sp"

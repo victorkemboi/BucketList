@@ -2,19 +2,15 @@ package com.vicki.mes.todo.ui;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -281,34 +277,7 @@ public class AddToDoActivity extends AppCompatActivity implements DatePickerDial
         return  returnMinute;
     }
 
-    public static void  sendNotification(BucketList item, Context context) {
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setSmallIcon(R.drawable.todo_icon);
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.journaldev.com/"));
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-        builder.setContentIntent(pendingIntent);
-        if(item.getCategory().equals("Alarm")) {
-            builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.alarm));
-        }else if(item.getCategory().equals("Meeting")){
-            builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.meeting));
-        }else if(item.getCategory().equals("Bucket List")){
-            builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.bucket));
-        }else if(item.getCategory().equals("Todo")){
-            builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.todo_icon));
-        }else{
-            builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.todo_icon));
-        }
-
-        builder.setContentTitle(item.getCategory());
-        builder.setContentText(item.getTitle());
-        builder.setSubText("Tap to view the website.");
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-
-        // Will display the notification in the notification bar
-        notificationManager.notify(1, builder.build());
-    }
 
 
 

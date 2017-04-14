@@ -58,7 +58,7 @@ public class todoListAdapter extends BaseListAdapter<BucketList> {
 
         if(a.getCategory().equals("Alarm")){
             viewHolder.type.setImageResource(R.drawable.alarm);
-        }else if(a.getCategory().equals("Completed")){
+        }else if(a.status.equals("Completed")){
             viewHolder.type.setImageResource(R.drawable.completed);
         }else if(a.getCategory().equals("Bucket List")){
             viewHolder.type.setImageResource(R.drawable.bucket);

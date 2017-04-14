@@ -63,6 +63,8 @@ public class OptionsFragment extends DialogFragment {
      optionItem = app.selectedBucketList;
      final View view = inflater.inflate(R.layout.options_fragment, container);
      Button delete=(Button)view.findViewById(R.id.btn_delete);
+     Button cancelActivity = (Button)view.findViewById(R.id.btn_completed);
+     Button close = (Button)view.findViewById(R.id.btn_close);
      delete.setOnClickListener(new View.OnClickListener() {
 
          @Override
@@ -77,6 +79,32 @@ public class OptionsFragment extends DialogFragment {
 
          }
      });
+     cancelActivity.setOnClickListener(new View.OnClickListener() {
+
+         @Override
+         public void onClick(View v) {
+             // TODO Auto-generated method stub
+             int option = 2;
+             App app = App.getInstance();
+             app.selectedBucketList = optionItem;
+             mListener.onComplete(option);
+             dismiss();
+
+
+         }
+     });
+
+     close.setOnClickListener(new View.OnClickListener() {
+
+         @Override
+         public void onClick(View v) {
+             // TODO Auto-generated method stub
+             dismiss();
+
+
+         }
+     });
+
      return view;
 
     }

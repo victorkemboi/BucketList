@@ -11,12 +11,17 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.NotificationCompat;
 
 import com.vicki.mes.todo.Models.BucketList;
 import com.vicki.mes.todo.R;
+import com.vicki.mes.todo.ui.Complete;
 import com.vicki.mes.todo.ui.ItemDetail;
+import com.vicki.mes.todo.ui.NotificationActivity;
 import com.vicki.mes.todo.utils.AlarmService;
+
+import java.util.Random;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -26,6 +31,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class AlarmReceiver extends BroadcastReceiver {
     Long id;
+    int notificationId = new Random().nextInt();
 
     private Context context;
     @Override
@@ -48,32 +54,57 @@ public class AlarmReceiver extends BroadcastReceiver {
         ringtone.play();
 
         // this will send a notification message
-        if (id != null) {
 
-            BucketList item = BucketList.findById(BucketList.class, id);
-            // do something with the data
-            sendNotification(item);
-
-        }
         ///end
 
 
         ComponentName comp = new ComponentName(context.getPackageName(),
                 AlarmService.class.getName());
+        intent.putExtra("notificationId",notificationId);
         intent.setComponent(comp);
+        if (id != null) {
+
+            BucketList item = BucketList.findById(BucketList.class, id);
+            // do something with the data
+            sendNotification(item,ringtone);
+
+        }
 
 
     }
-    public void sendNotification(BucketList item) {
+
+
+
+    public void sendNotification(BucketList item, final Ringtone ring) {
+        new CountDownTimer(30000, 1000) { // adjust the milli seconds here
+
+            public void onTick(long millisUntilFinished) {
+
+
+            }
+
+            public void onFinish() {
+                ring.stop();
+
+            }
+        }.start();
+
+
+         // just use a counter in some util class...
+        PendingIntent dismissIntent = NotificationActivity.getDismissIntent(notificationId, context);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setSmallIcon(R.drawable.todo_icon);
         Intent intent = new Intent(context, ItemDetail.class);
         intent.putExtra("ITEM_DETAIL_ID",id);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 intent, 0);
 
+        Intent completedIntent = new Intent(context,Complete.class);
+        PendingIntent pendingCompleteIntent = PendingIntent.getActivity(context, 0,
+                completedIntent, 0);
         builder.setContentIntent(pendingIntent);
         if(item.getCategory().equals("Alarm")) {
             builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.alarm));
@@ -90,12 +121,14 @@ public class AlarmReceiver extends BroadcastReceiver {
         builder.setContentTitle(item.getCategory());
         builder.setContentText(item.getTitle());
         builder.setSubText("Tap to view activity info.");
+        builder.addAction(R.drawable.close,"Completed",dismissIntent);
 
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
         // Will display the notification in the notification bar
-        notificationManager.notify(1, builder.build());
+        notificationManager.notify(notificationId, builder.build());
+
     }
 
 

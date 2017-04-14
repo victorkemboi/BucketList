@@ -92,10 +92,31 @@ public class BucketList extends SugarRecord {
         return title;
     }
 
-    public static List<BucketList> gettodos(){
-        return Select.from(BucketList.class).where(Condition.prop("status").notEq("Completed")).list();
+    public static List<BucketList> getactive(){
+        return Select.from(BucketList.class).where(Condition.prop("status").eq("Active")).list();
 
     }
+    public static List<BucketList> getall(){
+        return Select.from(BucketList.class).list();
+
+    }
+    public static List<BucketList> gettodosonly(){
+        return Select.from(BucketList.class).where(Condition.prop("category").eq("Todo"))
+                .where(Condition.prop("status").notEq("Active"))
+                .list();
+
+    }
+    public static List<BucketList> getbucketlistonly(){
+        return Select.from(BucketList.class).where(Condition.prop("category").eq("Bucket List"))
+                .where(Condition.prop("status").notEq("Active")).list();
+
+    }
+    public static List<BucketList> getcompleted(){
+        return Select.from(BucketList.class).where(Condition.prop("status").eq("Completed")).list();
+
+    }
+
+
 
 
 }

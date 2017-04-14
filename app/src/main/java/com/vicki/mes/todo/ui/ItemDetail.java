@@ -46,8 +46,12 @@ public class ItemDetail extends AppCompatActivity {
         ButterKnife.bind(this);
 
         App app = App.getInstance();
-
         item = app.selectedBucketList;
+        if (item.equals(null)){
+
+            Long intid = getIntent().getLongExtra("ITEM_DETAIL_ID",0);
+            item = BucketList.findById(BucketList.class,intid);
+        }
             ActionBar actionBar = getSupportActionBar();
             if(actionBar!=null){
                 actionBar.setTitle(item.getCategory());
