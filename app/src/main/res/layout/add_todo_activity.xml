@@ -40,7 +40,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:layout_weight="1"
-            android:hint="Enter Title" />
+            android:hint="Enter Title"
+            android:lines="1"
+            android:maxLines="1"
+            />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -139,7 +142,9 @@
             android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="Pick Date"
-            android:inputType="date" />
+            android:inputType="date"
+            android:editable="false"
+            android:focusableInTouchMode="false"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -157,7 +162,9 @@
             android:layout_toEndOf="@+id/ed_date"
             android:ems="10"
             android:hint="Set Time"
-            android:inputType="time" />
+            android:inputType="time"
+            android:editable="false"
+            android:focusableInTouchMode="false"/>
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 

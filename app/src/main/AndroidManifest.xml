@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vicki.mes.todo">
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
 
     <application
         android:name=".App"
@@ -11,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         android:name="com.orm.SugarApp" >  <!--Use this attribute verbatim-->
+
         <meta-data
             android:name="DATABASE"
             android:value="bucketlist.db" />
@@ -30,9 +33,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.AddToDoActivity">
-            
+        <activity
+            android:name=".ui.AddToDoActivity"
+            android:parentActivityName=".ui.ToDOActivity"
+            >
+
         </activity>
+        <activity
+            android:name=".ui.ItemDetail"
+            android:parentActivityName=".ui.ToDOActivity"
+            >
+
+        </activity>
+        <service
+            android:name="com.vicki.mes.todo.utils.AlarmService"
+            android:enabled="true" />
+        <receiver
+            android:name=".Broadcasts.AlarmReceiver">
+
+        </receiver>
     </application>
 
 </manifest>

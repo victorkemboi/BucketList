@@ -4,8 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import com.vicki.mes.todo.Models.BucketList;
 import com.vicki.mes.todo.R;
@@ -53,8 +53,21 @@ public class todoListAdapter extends BaseListAdapter<BucketList> {
         viewHolder.itemTitle.setText(a.getTitle());
         viewHolder.itemDescription.setText(a.getDescription());
         viewHolder.itemDate.setText(a.getDate());
-        viewHolder.itemTime.setText(a.getTime());
+        viewHolder.itemTime.setText(String.format("%s hrs",a.getTime()));
         viewHolder.itemCategory.setText(a.getCategory());
+
+        if(a.getCategory().equals("Alarm")){
+            viewHolder.type.setImageResource(R.drawable.alarm);
+        }else if(a.getCategory().equals("Completed")){
+            viewHolder.type.setImageResource(R.drawable.completed);
+        }else if(a.getCategory().equals("Bucket List")){
+            viewHolder.type.setImageResource(R.drawable.bucket);
+        }else if(a.getCategory().equals("Meeting")){
+            viewHolder.type.setImageResource(R.drawable.meeting);
+        }else if(a.getCategory().equals("Other")){
+            viewHolder.type.setImageResource(R.drawable.other);
+        }
+
 
         return convertView;
     }
@@ -72,6 +85,8 @@ public class todoListAdapter extends BaseListAdapter<BucketList> {
         TextView itemTime;
         @BindView(R.id.tv_item_category)
         TextView itemCategory;
+        @BindView(R.id.iv_type)
+        ImageView type;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -79,5 +94,6 @@ public class todoListAdapter extends BaseListAdapter<BucketList> {
 
 
     }
+
 
 }

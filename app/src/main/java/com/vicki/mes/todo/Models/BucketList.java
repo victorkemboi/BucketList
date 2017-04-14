@@ -1,6 +1,7 @@
 package com.vicki.mes.todo.Models;
 
 import com.orm.SugarRecord;
+import com.orm.query.Condition;
 import com.orm.query.Select;
 
 import java.util.List;
@@ -9,19 +10,27 @@ import java.util.List;
  * Created by kembo on 4/3/2017.
  */
 
-public class BucketList extends SugarRecord{
+public class BucketList extends SugarRecord {
     private  long id;
     private  String title;
     private  String description;
-    private  String date;
+    private String date;
     private  String time;
     private    String category;
+    public String status;
 
     public BucketList() {
     }
 
+    public  boolean categoryIsSet(){
+        if(!this.category.equals(null)){
+            return  true;
+        }
+        return  false;
+    };
 
-    public BucketList(String title, String description, String date, String time, String category){
+
+    public BucketList(String title, String description, String date, String time,String category){
         this.title = title;
         this.description = description;
         this.date = date;
@@ -29,10 +38,11 @@ public class BucketList extends SugarRecord{
         this.category = category;
 
 
+
     }
 
 
-    public long gettodoId() {
+    public long getid() {
         return id;
     }
 
@@ -83,8 +93,9 @@ public class BucketList extends SugarRecord{
     }
 
     public static List<BucketList> gettodos(){
-        return Select.from(BucketList.class).list();
+        return Select.from(BucketList.class).where(Condition.prop("status").notEq("Completed")).list();
 
     }
+
 
 }

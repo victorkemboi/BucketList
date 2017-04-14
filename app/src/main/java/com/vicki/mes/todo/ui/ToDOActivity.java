@@ -3,7 +3,9 @@ package com.vicki.mes.todo.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.vicki.mes.todo.Adapters.todoListAdapter;
+import com.vicki.mes.todo.App;
 import com.vicki.mes.todo.Models.BucketList;
 import com.vicki.mes.todo.R;
 
@@ -22,7 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class ToDOActivity extends AppCompatActivity {
+public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.OnCompleteListener{
 
     ArrayList<String> items = new ArrayList<>();
     ArrayAdapter<String> itemsAdapter;
@@ -35,17 +38,37 @@ public class ToDOActivity extends AppCompatActivity {
     ViewGroup emptyView;
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do);
         ButterKnife.bind(this);
-        // itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,items);
-        //lvItems.setAdapter(itemsAdapter);
-
-
         loadlist();
         setUpListViewListener();
+        setupOnItemselected();
+
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
+        return true;
+    }
+    private  void setupOnItemselected(){
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), ItemDetail.class);
+                final BucketList b = (BucketList) lvItems.getItemAtPosition(position);
+                App app = App.getInstance();
+                app.selectedBucketList = b;
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -54,8 +77,13 @@ public class ToDOActivity extends AppCompatActivity {
                 new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                        items.remove(position);
-                        itemsAdapter.notifyDataSetChanged();
+                       /* items.remove(position);
+                        itemsAdapter.notifyDataSetChanged(); */
+                        final BucketList b = (BucketList) lvItems.getItemAtPosition(position);
+                        App app = App.getInstance();
+                        app.selectedBucketList = b;
+                        app.position =position;
+                        optionsFrag();
                         return true;
                     }
                 }
@@ -63,36 +91,12 @@ public class ToDOActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * void onClick(View view) {
-     *
-     * @SuppressWarnings("unchecked") ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) getListAdapter();
-     * Comment comment = null;
-     * switch (view.getId()) {
-     * case R.id.add:
-     * String[] comments = new String[] { "Cool", "Very nice", "Hate it" };
-     * int nextInt = new Random().nextInt(3);
-     * // save the new comment to the database
-     * comment = datasource.createComment(comments[nextInt]);
-     * adapter.add(comment);
-     * break;
-     * case R.id.delete:
-     * if (getListAdapter().getCount() > 0) {
-     * comment = (Comment) getListAdapter().getItem(0);
-     * datasource.deleteComment(comment);
-     * adapter.remove(comment);
-     * }
-     * break;
-     * }
-     * adapter.notifyDataSetChanged();
-     * }
-     **/
 
     @Override
     protected void onResume() {
         super.onResume();
         loadlist();
-
+        setupOnItemselected();
         setUpListViewListener();
     }
 
@@ -104,7 +108,7 @@ public class ToDOActivity extends AppCompatActivity {
     }
 
     void loadlist() {
-        List<BucketList> allbucketlists = BucketList.listAll(BucketList.class);
+        List<BucketList> allbucketlists = BucketList.gettodos();
         listItem = new todoListAdapter(this, allbucketlists);
         lvItems.setEmptyView(emptyView);
         lvItems.setAdapter(listItem);
@@ -116,6 +120,20 @@ public class ToDOActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddToDoActivity.class);
         startActivity(intent);
     }
+    private void optionsFrag() {
+        FragmentManager fm =  getSupportFragmentManager();
+        OptionsFragment optionFragment = OptionsFragment.newInstance();
+        optionFragment.show(fm,"Options:");
+
+    }
 
 
+    @Override
+    public void onComplete(int option) {
+        if(option==1){
+            App app = App.getInstance();
+            app.selectedBucketList.delete();
+            loadlist();
+         }
+    }
 }
