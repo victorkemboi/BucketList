@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,10 +33,10 @@ public class ItemDetail extends AppCompatActivity {
     TextView detailDate;
     @BindView(R.id.detail_time)
     TextView detailTime;
-    @BindView(R.id.detail_postpone)
-    Button detailPostpone;
+
     @BindView(R.id.detail_complete)
     Button detailComplete;
+
 
 
 
@@ -62,14 +63,25 @@ public class ItemDetail extends AppCompatActivity {
                 detailDescription.setText(item.getDescription());
                 detailDate.setText(item.getDate());
                 detailTime.setText(item.getTime());
-
-
-
-
-
-
+                if (item.status.equals("Completed")){
+                    detailComplete.setVisibility(View.GONE);
+                }
 
         }
+        detailComplete.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                item.status = "Completed";
+                item.save();
+                finish();
+
+            }
+        });
+
+
+
 
 
     }

@@ -31,13 +31,13 @@
         android:textColor="@color/colorAccent"
         android:textSize="20dp"
         android:textAlignment="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="Description"
         android:textColor="@android:color/black"
 
@@ -126,18 +126,7 @@
             android:layout_margin="3dp"
             >
 
-            <Button
-                android:id="@+id/detail_postpone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Postpone"
-                android:textColor="@color/white"
-                android:background="@color/colorPrimary"
-                android:textSize="17sp"
-                android:layout_marginRight="2dp"
-                />
+
 
             <Button
                 android:id="@+id/detail_complete"

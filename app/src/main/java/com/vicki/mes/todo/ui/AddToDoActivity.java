@@ -90,7 +90,7 @@ public class AddToDoActivity extends AppCompatActivity implements DatePickerDial
 
 
 
-    private static final String[] Categories = {"Select Category","Bucket List", "Todo", "Meeting","Alarm", "Other"};
+    private static final String[] Categories = {"Select Category","Bucket List", "Todo", "Meeting","Reminder", "Other"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

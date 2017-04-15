@@ -56,7 +56,7 @@ public class todoListAdapter extends BaseListAdapter<BucketList> {
         viewHolder.itemTime.setText(String.format("%s hrs",a.getTime()));
         viewHolder.itemCategory.setText(a.getCategory());
 
-        if(a.getCategory().equals("Alarm")){
+        if(a.getCategory().equals("Reminder")){
             viewHolder.type.setImageResource(R.drawable.alarm);
         }else if(a.status.equals("Completed")){
             viewHolder.type.setImageResource(R.drawable.completed);

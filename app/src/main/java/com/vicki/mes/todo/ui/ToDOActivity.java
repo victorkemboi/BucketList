@@ -29,6 +29,7 @@ import butterknife.OnClick;
 
 public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.OnCompleteListener{
 
+    public  static  String State="";
     ArrayList<String> items = new ArrayList<>();
     ArrayAdapter<String> itemsAdapter;
     @BindView(R.id.lv_to_do)
@@ -43,18 +44,40 @@ public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do);
         ButterKnife.bind(this);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null){
-            actionBar.setIcon(R.drawable.todo_icon);
-            actionBar.setTitle("Upcomin Tasks");
+        if(State.equals("")) {
+            State = "Active";
+            loadlist();
+            if(actionBar!=null){
+                actionBar.setIcon(R.drawable.todo_icon);
+                actionBar.setTitle("Upcomin Tasks");
+
+            }
+        }else if(State.equals("Completed")){
+            loadcompleted();
+            if(actionBar!=null){
+                actionBar.setIcon(R.drawable.completed);
+                actionBar.setTitle("Completed Tasks");
+
+            }
+        }else  if (State.equals("Active")) {
+            loadlist();
+            if(actionBar!=null){
+                actionBar.setIcon(R.drawable.todo_icon);
+                actionBar.setTitle("Upcomin Tasks");
+
+            }
 
         }
-        loadlist();
+
+
+
         setUpListViewListener();
         setupOnItemselected();
 
@@ -72,6 +95,7 @@ public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.
         int id = item.getItemId();
         switch (id){
             case R.id.nav_active:
+                State = "Active";
 
                 loadlist();
                 setUpListViewListener();
@@ -85,6 +109,7 @@ public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.
 
                 return true;
             case R.id.nav_completed:
+                State = "Completed";
                 ActionBar actionBar1 = getSupportActionBar();
                 if(actionBar1!=null){
                     actionBar1.setIcon(R.drawable.completed);
@@ -123,9 +148,13 @@ public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.
                         final BucketList b = (BucketList) lvItems.getItemAtPosition(position);
                         App app = App.getInstance();
                         app.selectedBucketList = b;
-                        app.position =position;
-                        optionsFrag();
-                        return true;
+                        if(b.status.equals("Active")) {
+                            app.position = position;
+                            optionsFrag();
+                            return true;
+                        }else{
+                            return false ;
+                        }
                     }
                 }
         );
@@ -136,9 +165,16 @@ public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.
     @Override
     protected void onResume() {
         super.onResume();
-        loadlist();
-        setupOnItemselected();
-        setUpListViewListener();
+        if(State.equals("Active")) {
+            loadlist();
+            setupOnItemselected();
+            setUpListViewListener();
+        }else if(State.equals("Completed")){
+            loadcompleted();
+            setupOnItemselected();
+            setUpListViewListener();
+
+        }
     }
 
 
@@ -183,12 +219,20 @@ public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.
             case 1:
                 App app = App.getInstance();
                 app.selectedBucketList.delete();
-                loadlist();
+                if(State.equals("Active")) {
+                    loadlist();
+                }else if(State.equals("Completed")){
+                    loadcompleted();
+                }
             case 2:
                 App app2 = App.getInstance();
                 app2.selectedBucketList.status = "Completed";
                 app2.selectedBucketList.save();
-                loadlist();
+                if(State.equals("Active")) {
+                    loadlist();
+                }else if(State.equals("Completed")){
+                    loadcompleted();
+                }
 
 
         }
