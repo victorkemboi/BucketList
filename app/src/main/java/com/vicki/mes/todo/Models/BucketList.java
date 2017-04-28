@@ -4,6 +4,7 @@ import com.orm.SugarRecord;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -14,9 +15,8 @@ public class BucketList extends SugarRecord {
     private  long id;
     private  String title;
     private  String description;
-    private String date;
-    private  String time;
-    private    String category;
+    private  Calendar datetime;
+    private  String category;
     public String status;
 
     public BucketList() {
@@ -30,11 +30,10 @@ public class BucketList extends SugarRecord {
     };
 
 
-    public BucketList(String title, String description, String date, String time,String category){
+    public BucketList(String title, String description, Calendar datetime,String category){
         this.title = title;
         this.description = description;
-        this.date = date;
-        this.time = time;
+        this.datetime = datetime;
         this.category = category;
 
 
@@ -55,32 +54,28 @@ public class BucketList extends SugarRecord {
     }
 
     public void setTitle(String title) {
-        this.time = title;
+        this.title = title;
     }
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
-        this.time = description;
+        this.description = description;
     }
-    public String getDate() {
-        return date;
+    public Calendar getDate() {
+        return datetime;
     }
 
-    public void setDate(String date) {
-        this.time = date;
+    public void setDate(Calendar date) {
+        this.datetime = date;
     }
-    public String getTime() {
-        return time;
-    }
+
     public String getCategory() {
         return category;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
+
     public void setCategory(String category) {
         this.category = category;
     }

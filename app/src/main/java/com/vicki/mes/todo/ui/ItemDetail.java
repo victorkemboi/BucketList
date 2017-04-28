@@ -13,6 +13,8 @@ import com.vicki.mes.todo.App;
 import com.vicki.mes.todo.Models.BucketList;
 import com.vicki.mes.todo.R;
 
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -61,10 +63,19 @@ public class ItemDetail extends AppCompatActivity {
 
                 detailTitle.setText(item.getTitle());
                 detailDescription.setText(item.getDescription());
-                detailDate.setText(item.getDate());
-                detailTime.setText(item.getTime());
+                detailDate.setText(String.format("%s/%s/%s",item.getDate().get(Calendar.DATE),item.getDate().get(Calendar.MONTH),item.getDate().get(Calendar.YEAR)));
+                detailTime.setText(String.format("%s:%s hrs",item.getDate().getTime().getHours(),item.getDate().getTime().getMinutes()));
                 if (item.status.equals("Completed")){
                     detailComplete.setVisibility(View.GONE);
+                    detailIcon.setImageResource(R.drawable.completed);
+                }else if(item.getCategory().equals("Reminder")){
+                    detailIcon.setImageResource(R.drawable.alarm);
+                }else if(item.getCategory().equals("Bucket List")){
+                    detailIcon.setImageResource(R.drawable.bucket);
+                }else if(item.getCategory().equals("Meeting")){
+                    detailIcon.setImageResource(R.drawable.meeting);
+                }else if(item.getCategory().equals("Other")){
+                    detailIcon.setImageResource(R.drawable.other);
                 }
 
         }
@@ -85,4 +96,5 @@ public class ItemDetail extends AppCompatActivity {
 
 
     }
+
 }

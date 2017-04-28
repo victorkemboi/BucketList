@@ -37,7 +37,8 @@ public class AddToDoActivity extends AppCompatActivity implements DatePickerDial
 
     BucketList itemBucket;
     final Calendar dateCalender = Calendar.getInstance();
-    final Calendar timeCalender = Calendar.getInstance();
+
+    Button SignUp;
 
     @BindView(R.id.ed_title)
     EditText edTitle;
@@ -47,10 +48,11 @@ public class AddToDoActivity extends AppCompatActivity implements DatePickerDial
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        timeCalender.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        timeCalender.set(Calendar.MINUTE, minute);
+        dateCalender.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        dateCalender.set(Calendar.MINUTE, minute);
+        SignUp = (Button)findViewById(R.id.btn_todo_save);
 
-        edTime.setText(String.format("%s:%s", timeCalender.get(Calendar.HOUR_OF_DAY),
+        edTime.setText(String.format("%s:%s", dateCalender.get(Calendar.HOUR_OF_DAY),
                 validateMinute()));
         selectedTime = edTime.getText().toString();
 
@@ -126,14 +128,14 @@ public class AddToDoActivity extends AppCompatActivity implements DatePickerDial
              String date = edDate.getText().toString().trim();
              String time = edTime.getText().toString().trim();
 
-                 itemBucket = new BucketList(title,description,date,time,selectedCategory);
+                 itemBucket = new BucketList(title,description,dateCalender,selectedCategory);
                  itemBucket.status = "Active";
                  itemBucket.save();
              Calendar cal = Calendar.getInstance();
 
              cal.setTimeInMillis(System.currentTimeMillis());
              cal.clear();
-             cal.set(dateCalender.get(Calendar.YEAR),dateCalender.get(Calendar.MONTH),dateCalender.get(Calendar.DATE),timeCalender.get(Calendar.HOUR_OF_DAY),timeCalender.get(Calendar.MINUTE));
+             cal.set(dateCalender.get(Calendar.YEAR),dateCalender.get(Calendar.MONTH),dateCalender.get(Calendar.DATE),dateCalender.get(Calendar.HOUR_OF_DAY),dateCalender.get(Calendar.MINUTE));
              cal.set(Calendar.SECOND, 0);
              AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
              Intent intent = new Intent(this, AlarmReceiver.class);
@@ -258,7 +260,7 @@ public class AddToDoActivity extends AppCompatActivity implements DatePickerDial
 
 
     public  String validateMinute(){
-        int minute =timeCalender.get(Calendar.MINUTE);
+        int minute =dateCalender.get(Calendar.MINUTE);
         String returnMinute;
         if(minute==0){returnMinute="00";}
         else if(minute==1){returnMinute="01";}

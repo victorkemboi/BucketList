@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.vicki.mes.todo.Models.BucketList;
 import com.vicki.mes.todo.R;
 
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,16 +51,17 @@ public class todoListAdapter extends BaseListAdapter<BucketList> {
         }
         //Update ViewHolder with data.
         BucketList a = getItem(position);
+
         viewHolder.itemTitle.setText(a.getTitle());
         viewHolder.itemDescription.setText(a.getDescription());
-        viewHolder.itemDate.setText(a.getDate());
-        viewHolder.itemTime.setText(String.format("%s hrs",a.getTime()));
-        viewHolder.itemCategory.setText(a.getCategory());
+        viewHolder.itemDate.setText(String.format("%s %s",retMonth(a.getDate().get(Calendar.MONTH)), a.getDate().get(Calendar.DATE)) );
+        viewHolder.itemTime.setText(String.format("%s:%s hrs",a.getDate().getTime().getHours(),a.getDate().getTime().getMinutes()));
 
-        if(a.getCategory().equals("Reminder")){
-            viewHolder.type.setImageResource(R.drawable.alarm);
-        }else if(a.status.equals("Completed")){
+
+        if(a.status.equals("Completed")){
             viewHolder.type.setImageResource(R.drawable.completed);
+        }else if(a.getCategory().equals("Reminder")){
+            viewHolder.type.setImageResource(R.drawable.alarm);
         }else if(a.getCategory().equals("Bucket List")){
             viewHolder.type.setImageResource(R.drawable.bucket);
         }else if(a.getCategory().equals("Meeting")){
@@ -83,8 +85,7 @@ public class todoListAdapter extends BaseListAdapter<BucketList> {
         TextView itemDate;
         @BindView(R.id.tv_item_time)
         TextView itemTime;
-        @BindView(R.id.tv_item_category)
-        TextView itemCategory;
+
         @BindView(R.id.iv_type)
         ImageView type;
 
@@ -94,6 +95,38 @@ public class todoListAdapter extends BaseListAdapter<BucketList> {
 
 
     }
+    String retMonth(int month){
+        String retmonth="";
+        if(month==0){
+            retmonth="Jan";
+            return  retmonth;
+        }else if(month==1){
+            retmonth="Feb";
+        }else if(month==2){
+            retmonth="Mar";
+        }else if(month==3){
+            retmonth="Apr";
+        }else if(month==4){
+            retmonth="May";
+        }else if(month==5){
+            retmonth="Jun";
+        }else if(month==6){
+            retmonth="Jul";
+        }else if(month==7){
+            retmonth="Aug";
+        }else if(month==8){
+            retmonth="Sep";
+        }else if(month==9){
+            retmonth="Oct";
+        }else if(month==10){
+            retmonth="Nov";
+        }else if(month==11){
+            retmonth="Dec";
+        }
+        return retmonth;
+
+    }
+
 
 
 }

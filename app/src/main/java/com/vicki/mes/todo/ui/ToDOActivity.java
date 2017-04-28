@@ -20,6 +20,7 @@ import com.vicki.mes.todo.Models.BucketList;
 import com.vicki.mes.todo.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,6 +52,7 @@ public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.
         setContentView(R.layout.activity_to_do);
         ButterKnife.bind(this);
         ActionBar actionBar = getSupportActionBar();
+        testCompletedActivities();
         if(State.equals("")) {
             State = "Active";
             loadlist();
@@ -237,4 +239,20 @@ public class ToDOActivity extends AppCompatActivity  implements OptionsFragment.
 
         }
     }
+    public void testCompletedActivities(){
+        List<BucketList> Activities;
+        Activities = BucketList.listAll(BucketList.class);
+        for(BucketList todo:Activities){
+            Calendar cal= Calendar.getInstance();
+            cal.setTimeInMillis(System.currentTimeMillis());
+            if(todo.getDate().before(cal)){
+                todo.status = "Completed";
+                todo.save();
+            }
+        }
+
+    }
+
+
+
 }
